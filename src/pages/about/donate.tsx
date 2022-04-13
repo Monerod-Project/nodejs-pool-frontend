@@ -36,7 +36,7 @@ var address="8B6nMw5K64bKcejt17PfBsjMpANKuRsBU3FeStsru5fTZeCwVqQVebUfwjPeoM8Wshi
                     Use the $store command in our Discord.<br />
                     <br />
                     <b>Pool Bonus Hashrate Contribution</b><br />
-                    Download and run <a href="https://github.com/Monerod-org/xmrig-md/releases" target="_blank" rel="noreferrer" className="text-indigo-400">XMRig-md</a>, default contribution of %1.
+                    Download and run <a href="https://github.com/Monerod-Project/xmrig-md/releases" target="_blank" rel="noreferrer" className="text-indigo-400">XMRig-md</a>, default contribution of %1.
                     </p>
                     <br /><hr /><br />
                     <StaticImage className= "mx-auto" objectPosition="50% 50%" placeholder="blurred" layout="fixed" width={200} src="../../images/donate.webp" alt="Donate" />

@@ -133,7 +133,7 @@ const Home = () => {
                             <div className="flex border-2 rounded-lg p-4 sm:flex-row flex-col border-gray-700">
                                 <div className="align-middle w-auto">
                                     <p className="text-gray-200 flex">
-                                        <b>1</b>. Download <a href="https://github.com/Monerod-org/xmrig-md/releases" target="_blank" rel="noreferrer" className="text-indigo-400 flex mr-2 ml-2">XMRig-md</a> or <a href="https://github.com/xmrig/xmrig/releases" target="_blank" rel="noreferrer" className="text-indigo-400 flex ml-2">XMRig Official</a>.
+                                        <b>1</b>. Download <a href="https://github.com/Monerod-Project/xmrig-md/releases" target="_blank" rel="noreferrer" className="text-indigo-400 flex mr-2 ml-2">XMRig-md</a> or <a href="https://github.com/xmrig/xmrig/releases" target="_blank" rel="noreferrer" className="text-indigo-400 flex ml-2">XMRig Official</a>.
                                     </p><br />
                                     <p className="text-gray-200 mb-8">
                                         <b>2</b>. Update the following values in XMRig's config.json file, then Sign In here with your mining wallet address:<br /><br />

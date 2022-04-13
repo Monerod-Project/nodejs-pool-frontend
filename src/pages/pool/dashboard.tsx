@@ -76,7 +76,7 @@ const Dashboard = () => {
                     <div className="w-max inline-block mb-4 mt-6 ml-4 h-24 float-left">
                         <h1 className="text-3xl text-dracula-foreground">Good {date.getHours() > 12 ? "Evening" : "Morning"}</h1>
                         <span className="text-dracula-comment">
-                            v1.6.0 Live! Provide feedback on our Discord/Matrix.<br />
+                            v1.6.1 Live! Provide feedback on our Discord/Matrix.<br />
                             Please support P2Pool if you can @ p2pool.io!
                         </span>
                     </div>

@@ -43,15 +43,9 @@ const about = [
         icon: FaInfoCircle,
     },
     {
-        name: 'Team',
-        description: 'The folks who make this happen.',
-        href: '/about/team',
-        icon: FaUsers,
-    },
-    {
         name: 'Git',
         description: 'View our code repositories.',
-        href: 'https://github.com/Monerod-org',
+        href: 'https://github.com/Monerod-Project',
         icon: SiGithub,
     },
     {
