@@ -64,6 +64,9 @@ const BlockPaymentTable = (payments: Payments) => {
                     if (payment.Payment === 0) {
                         return
                     }
+                    if (payment.value == 0) {
+                        return
+                    }
                     if (i > 15) {
                         return
                     }

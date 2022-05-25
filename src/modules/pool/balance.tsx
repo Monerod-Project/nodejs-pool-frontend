@@ -31,12 +31,12 @@ paymentThreshold /= Math.pow(10, 12);
                         </p>
                     </div>
                     <div className="mt-6 md:mt-0 text-white font-bold">
-                    <span
-                            className="text-sm text-gray-300 text-right block">Pending/Paid: {amountDue.toFixed(6)}/{amountPaid.toFixed(6)} XMR</span>
                         <span
-                            className="text-sm text-gray-300 text-right block">Pending/Paid: {(props.fiat * amountDue).toFixed(2)}/{(props.fiat * amountPaid).toFixed(2)} {localStorage.getItem("currency") || "USD"}</span>
+                            className="text-sm text-gray-300 text-right block h-8">Pending/Paid: {amountDue.toFixed(6)}/{amountPaid.toFixed(6)} XMR</span>
                         <span
-                            className="text-sm text-gray-300 text-right block">Payment Threshold: {paymentThreshold} XMR</span>
+                            className="text-sm text-gray-300 text-right block h-8">Pending/Paid: {(props.fiat * amountDue).toFixed(2)}/{(props.fiat * amountPaid).toFixed(2)} {localStorage.getItem("currency") || "USD"}</span>
+                        <span
+                            className="text-sm text-gray-300 text-right block h-8">Payment Threshold: {paymentThreshold} XMR</span>
                     </div>
                 </div>
                 <div className="w-full h-4">

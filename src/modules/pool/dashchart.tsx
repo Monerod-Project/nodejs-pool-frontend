@@ -18,14 +18,43 @@ const DashChart = () => {
     poolBlocks: useSWR(apiUrl + "pool/blocks", fetcher, {refreshInterval: 1000 * 60}),
   }
 
+  const time = api.poolHash.data?.filter(obj => obj.ts >= moment().valueOf() - 86400000).map(obj => moment(obj.ts).local().format('h:mma'));
+  const hash = api.poolHash.data?.map(x => x.hs)
+  const miners = api.poolMiners.data?.map(x => x.cn)
+
+  const getMovingAverage = (hash = []) => {
+    const result = [];
+    let sum = 0;
+    let count = 0;
+    for(let i = 0; i < hash.length; i++){
+        const num = hash[i];
+        sum += num;
+        count++;
+        const curr = sum / count;
+        result[i] = curr;
+    };
+    return result;
+  };
+
   const data = {
-    labels: api.poolHash.data?.map(x => moment(x.ts).local().format('h:mma')),
+    labels: time,
     datasets: [
       {
         type: 'line',
-        label: 'Pool Hashrate',
-        data: api.poolHash.data?.map(x => x.hs),
-        backgroundColor: "#570df8",
+        label: 'Pool Average Hashrate',
+        data: getMovingAverage(hash),
+        borderColor: 'rgb(191, 149, 249)',
+        //fill: "start",
+        reverse: true,
+        pointStyle: "circle",
+        pointBackgroundColor: "rgba(0, 0, 0, 0)",
+        pointBorderColor: "rgba(0, 0, 0, 0)",
+      },
+      {
+        type: 'line',
+        label: 'Pool Current Hashrate',
+        data: hash,
+        borderColor: "#570df8",
         fill: "start",
         pointStyle: "circle",
         pointBackgroundColor: "rgba(0, 0, 0, 0)",
@@ -34,8 +63,8 @@ const DashChart = () => {
       /*{
         type: 'line',
         label: 'Connected Accounts',
-        data: api.poolMiners.data?.reverse().map(x => x.cn),
-        backgroundColor: "#3A8B9C",
+        data: miners,
+        borderColor: "#3A8B9C",
         //fill: "start",
         pointStyle: "circle",
         pointBackgroundColor: "rgba(0, 0, 0, 0)",
@@ -57,6 +86,7 @@ const DashChart = () => {
     plugins: {
       legend: {
         display: true,
+        fontColor: 'white',
       },
     },
     scales: {
@@ -75,7 +105,12 @@ const DashChart = () => {
         reverse: true,
         grid: {
           display: true,
-        }
+        },
+        ticks:{
+          display: true,
+          autoSkip: true,
+          maxTicksLimit: 24,
+        },
       }
     },
     hover: {

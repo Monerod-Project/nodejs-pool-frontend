@@ -15,7 +15,8 @@ import Navigation from "../../modules/navigation/navigation";
 import Footer from "../../modules/navigation/footer";
 import DashChart from "../../modules/pool/dashchart";
 import MinerChart from "../../modules/pool/minerchart";
-import {FaSwimmingPool, FaGlobe, FaMonero, FaUser, FaUserPlus, FaUserCog} from 'react-icons/fa/';
+import {FaSwimmingPool, FaGlobe, FaMonero, FaUser, FaUserPlus, FaUserCog, FaBolt} from 'react-icons/fa/';
+import { IconContext } from "react-icons";
 import { Link } from "gatsby";
 import {apiUrl} from "../../modules/utils";
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
@@ -56,6 +57,8 @@ const Dashboard = () => {
         minerStats: useSWR(apiUrl + "miner/" + Cookies.get("wallet") + "/stats", fetcher, {refreshInterval: 1000 * 60}),
         //Miner Workers
         workerNames: useSWR(apiUrl + "miner/" + Cookies.get("wallet") + "/identifiers", fetcher, {refreshInterval: 1000 * 60}),
+        //Miner Hashrate
+        minerHash: useSWR(apiUrl + "miner/" + Cookies.get("wallet") + "/chart/hashrate/allWorkers", fetcher, {refreshInterval: 1000 * 60}),
         //Bonus Hashrate
         bonusStats: useSWR("https://bonus-api.monerod.org/2/summary", fetcher, {refreshInterval: 1000 * 60}),
     }
@@ -75,8 +78,19 @@ const Dashboard = () => {
                 <div id="main" className="container mx-auto">
                     <div className="w-max inline-block mb-4 mt-6 ml-4 h-24 float-left">
                         <h1 className="text-3xl text-dracula-foreground">Good {date.getHours() > 12 ? "Evening" : "Morning"}</h1>
+                        {api.workerNames.data == "MonerodBonus" ?
+                            <>
+                                <IconContext.Provider value={{color: "yellow", className: "fa-solid fa-i-cursor fa-fade mt-1"}}>
+                                    <div className="flex">
+                                        <FaBolt size={20} /> <span className="text-dracula-foreground">You're Currently Boosting!</span>
+                                    </div>
+                                </IconContext.Provider>
+                            </>
+                            :
+                            <span></span>
+                        }
                         <span className="text-dracula-comment">
-                            v1.6.1 Live! Provide feedback on our Discord/Matrix.<br />
+                            v1.6.2 Live! Provide feedback on our Discord/Matrix.<br />
                             Please support P2Pool if you can @ p2pool.io!
                         </span>
                     </div>
@@ -216,10 +230,16 @@ const Dashboard = () => {
                                             </div>
                                             <Table>
                                                 <Tbody>
-                                                    <Td className="pr-4 w-max"><Hashrate title="Hashrate" alt="Your Total Effective Hashrate" hashrate={api.minerStats.data?.hash}/></Td>
-                                                    <Td className="pr-4 w-max"><Workers title="Workers" alt="Your Total Workers" workers={Object.keys(api.workerNames.data)?.length}/></Td>
-                                                    <Td className="pr-4 w-max"><Amount2 title="Shares" alt="Your Total Valid/Invalid Shares" amount={api.minerStats.data?.validShares} amount2={api.minerStats.data?.invalidShares}/></Td>
-                                                    <Td className="pr-4 w-max"><Amount title="Pool Share" alt="Your Pool Hashrate Share" amount={(100 * (api.minerStats.data?.hash / api.poolStats.data?.pool_statistics.hashRate)).toFixed(4) + "%"}/></Td>
+                                                    <Tr>
+                                                        <Td className="pr-4 w-max"><Hashrate title="Hashrate" alt="Your Current Total Effective Hashrate" hashrate={api.minerStats.data?.hash}/></Td>
+                                                        {/*<Td className="pr-4 w-max"><Hashrate title="Average Hashrate" alt="Your Current Average Effective Hashrate" hashrate={api.minerStats.data?.hash}/></Td>*/}
+                                                        <Td className="pr-4 w-max"><Amount title="Estimated Earnings" alt="Your Estimated Earnings Per Block" amount={(100 * (api.minerStats.data?.hash / api.poolStats.data?.pool_statistics.hashRate) * 0.6 / 100).toFixed(6) + " XMR"}/></Td>
+                                                    </Tr>
+                                                    <Tr>
+                                                        <Td className="pr-4 w-max"><Workers title="Workers" alt="Your Total Workers" workers={Object.keys(api.workerNames.data)?.length}/></Td>
+                                                        <Td className="pr-4 w-max"><Amount2 title="Shares" alt="Your Total Valid/Invalid Shares" amount={api.minerStats.data?.validShares} amount2={api.minerStats.data?.invalidShares}/></Td>
+                                                        <Td className="pr-4 w-max"><Amount title="Pool Share" alt="Your Pool Hashrate Share" amount={(100 * (api.minerStats.data?.hash / api.poolStats.data?.pool_statistics.hashRate)).toFixed(4) + "%"}/></Td>
+                                                    </Tr>
                                                 </Tbody>
                                             </Table>
                                         </div>
@@ -237,9 +257,11 @@ const Dashboard = () => {
                                                     Detail
                                                 </p>
                                             </div>
-                                            <Link to="/pool/minerworkers" className="mx-auto lg:mx-0 text-sm text-white text-center bg-indigo-600 hover:bg-indigo-700 font-bold rounded py-2 px-2 shadow-lg">Workers</Link>
-                                            <Link to="/pool/minerpayments" className="mx-auto lg:mx-0 text-sm text-white text-center bg-indigo-600 hover:bg-indigo-700 font-bold rounded py-2 px-2 shadow-lg">Payments</Link>
-                                            <Link to="/pool/minerblockpayments" className="mx-auto lg:mx-0 text-sm text-white text-center bg-indigo-600 hover:bg-indigo-700 font-bold rounded py-2 px-2 shadow-lg">Block Payments</Link>
+                                            <table>
+                                            <tr className="h-9"><Link to="/pool/minerworkers" className="mx-auto lg:mx-0 text-sm text-white text-center bg-indigo-600 hover:bg-indigo-700 font-bold rounded py-1 px-2 shadow-lg">Workers</Link></tr>
+                                            <tr className="h-9"><Link to="/pool/minerpayments" className="mx-auto lg:mx-0 text-sm text-white text-center bg-indigo-600 hover:bg-indigo-700 font-bold rounded py-1 px-2 shadow-lg">Payments</Link></tr>
+                                            <tr className="h-9"><Link to="/pool/minerblockpayments" className="mx-auto lg:mx-0 text-sm text-white text-center bg-indigo-600 hover:bg-indigo-700 font-bold rounded py-1 px-2 shadow-lg">Block Payments</Link></tr>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>

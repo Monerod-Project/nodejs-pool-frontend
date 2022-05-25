@@ -88,7 +88,7 @@ export const WorkerList = (workers: WorkerList) => {
                                     worker.identifer === "" || worker.identifer === "x" ? "Update XMRig Pass Field" : ""
                                     }
                                     {
-                                    worker.identifer === "MonerodBonus" ? "🔥" + worker.identifer : worker.identifer
+                                    worker.identifer === "MonerodBonus" ? "⚡" + worker.identifer : worker.identifer
                                     }
                                 </div>
                             </Td>
